@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b0b14">
+<title>TestSolver AI</title>
+<style>
+:root{--bg:#0b0b14;--panel:#131321;--panel2:#19192b;--line:#292941;--text:#f4f3ff;--muted:#a3a1bd;--purple:#8b5cf6;--blue:#4f8cff;--green:#42d6a4}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0%,#24184b 0,transparent 34%),radial-gradient(ellipse at 100% 15%,#102c4c 0,transparent 30%),var(--bg);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+header{height:74px;border-bottom:1px solid #ffffff12;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(18px,5vw,72px);backdrop-filter:blur(14px);position:sticky;top:0;background:#0b0b14c9;z-index:5}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:19px;letter-spacing:-.5px}.logo{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--purple),var(--blue));display:grid;place-items:center;box-shadow:0 5px 24px #7652f566}.logo svg{width:21px}
+.badge{font-size:12px;color:#c8b8ff;border:1px solid #8b5cf655;background:#8b5cf61a;padding:6px 11px;border-radius:99px}
+main{width:min(1060px,92vw);margin:58px auto 80px}.eyebrow{color:#b5a1ff;text-transform:uppercase;letter-spacing:2px;font-size:11px;font-weight:800;text-align:center}
+h1{text-align:center;font-size:clamp(34px,6vw,56px);line-height:1.08;letter-spacing:-2px;margin:13px 0 14px}.gradient{background:linear-gradient(90deg,#b69aff,#75baff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.subtitle{text-align:center;color:var(--muted);max-width:590px;margin:0 auto 36px;font-size:16px}
+.workspace{background:linear-gradient(180deg,#171729,#11111e);border:1px solid #ffffff17;border-radius:24px;padding:clamp(18px,3vw,30px);box-shadow:0 25px 90px #0006}
+.tabs{display:flex;gap:8px;padding:5px;background:#0b0b16;border:1px solid var(--line);border-radius:14px;width:max-content;margin-bottom:22px}
+.tab{border:0;background:transparent;color:var(--muted);padding:9px 14px;border-radius:10px;font:inherit;cursor:pointer}.tab.active{background:#292344;color:#fff;box-shadow:inset 0 0 0 1px #8b5cf644}
+.field-label{display:block;font-weight:700;margin:0 0 9px}.hint{font-size:12px;color:var(--muted);font-weight:400;margin-left:5px}
+input[type=url],textarea{width:100%;background:#0c0c17;border:1px solid #30304a;border-radius:13px;color:var(--text);padding:14px 15px;font:inherit;outline:none;transition:.2s}
+input:focus,textarea:focus{border-color:#8b5cf6;box-shadow:0 0 0 3px #8b5cf622}textarea{min-height:155px;resize:vertical}
+.drop{border:1.5px dashed #454563;border-radius:15px;padding:23px;text-align:center;background:#0d0d19;cursor:pointer;transition:.2s}.drop:hover,.drop.drag{border-color:#9b7aff;background:#171329}.drop strong{display:block;margin:7px 0 2px}.drop small{color:var(--muted)}.upload-icon{width:40px;height:40px;border-radius:13px;background:#8b5cf622;color:#bda8ff;display:grid;place-items:center;margin:auto}.upload-icon svg{width:21px}
+.preview{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.preview img{height:76px;width:76px;object-fit:cover;border-radius:10px;border:1px solid var(--line)}
+.actions{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:22px;flex-wrap:wrap}.privacy{font-size:12px;color:var(--muted);max-width:440px}.primary{border:0;border-radius:13px;padding:13px 20px;color:white;font:700 14px inherit;background:linear-gradient(100deg,var(--purple),var(--blue));cursor:pointer;box-shadow:0 8px 25px #6650d644;transition:.2s}.primary:hover{transform:translateY(-1px);filter:brightness(1.08)}.primary:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.notice{display:none;margin-top:18px;padding:14px 16px;border-radius:12px;background:#20203a;border:1px solid #8b5cf655;color:#d9d2ff;font-size:13px}.notice.show{display:block}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}.feature{border:1px solid #ffffff12;background:#11111d99;border-radius:16px;padding:17px}.feature-icon{font-size:20px}.feature b{display:block;margin:7px 0 3px}.feature p{margin:0;color:var(--muted);font-size:12px}
+footer{text-align:center;color:#77758f;font-size:12px;margin:28px 0 0}
+@media(max-width:650px){main{margin-top:38px}.features{grid-template-columns:1fr}.actions{align-items:stretch}.primary{width:100%}.privacy{max-width:none}.tabs{width:100%}.tab{flex:1}.badge{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v14H7z"/><path d="M15 3v5h5M10 13h6M10 17h6"/></svg></div>TestSolver <span class="gradient">AI</span></div>
+  <div class="badge">✦ Учебный помощник</div>
+</header>
+<main>
+  <div class="eyebrow">Твой помощник в учёбе</div>
+  <h1>Разберись с тестом<br><span class="gradient">быстрее и понятнее</span></h1>
+  <p class="subtitle">Добавь вопросы, ссылку или скриншоты — получи помощь с разбором заданий и объяснениями.</p>
+
+  <section class="workspace">
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-tab="link">🔗 Ссылка</button>
+      <button class="tab" data-tab="text">✍️ Вопросы</button>
+      <button class="tab" data-tab="photo">📷 Фото</button>
+    </div>
+
+    <div class="panel" id="link-panel">
+      <label class="field-label" for="test-link">Ссылка на страницу <span class="hint">если тест доступен без авторизации</span></label>
+      <input id="test-link" type="url" placeholder="https://example.com/test">
+    </div>
+    <div class="panel" id="text-panel" hidden>
+      <label class="field-label" for="questions">Вставь вопросы и варианты ответов</label>
+      <textarea id="questions" placeholder="1. Как называется процесс, при котором растения...&#10;А) ...&#10;Б) ...&#10;В) ..."></textarea>
+    </div>
+    <div class="panel" id="photo-panel" hidden>
+      <label class="field-label">Загрузи скриншоты или фотографии</label>
+      <label class="drop" id="dropzone" for="files">
+        <span class="upload-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m-4 4 4-4 4 4"/><path d="M4 16v4h16v-4"/></svg></span>
+        <strong>Нажми, чтобы выбрать файлы</strong>
+        <small>PNG, JPG или WEBP</small>
+      </label>
+      <input id="files" type="file" accept="image/png,image/jpeg,image/webp" multiple hidden>
+      <div class="preview" id="preview"></div>
+    </div>
+
+    <div class="actions">
+      <div class="privacy">🔒 Не отправляй личные данные, пароли или закрытые ссылки. Используй помощника для тренировки и понимания материала.</div>
+      <button class="primary" id="analyze">Разобрать задания&nbsp; →</button>
+    </div>
+    <div class="notice" id="notice" role="status"></div>
+  </section>
+
+  <section class="features">
+    <div class="feature"><span class="feature-icon">🧠</span><b>Понятные объяснения</b><p>Разбирай ход решения, а не просто запоминай вариант.</p></div>
+    <div class="feature"><span class="feature-icon">📸</span><b>Работа с изображениями</b><p>Добавляй фото заданий и скриншоты страниц.</p></div>
+    <div class="feature"><span class="feature-icon">📚</span><b>Разные предметы</b><p>Математика, языки, история, биология и многое другое.</p></div>
+  </section>
+  <footer>TestSolver AI · Учись в своём темпе</footer>
+</main>
+<script>
+const tabs=[...document.querySelectorAll('.tab')];
+tabs.forEach(btn=>btn.addEventListener('click',()=>{
+  tabs.forEach(t=>t.classList.toggle('active',t===btn));
+  document.querySelectorAll('.panel').forEach(p=>p.hidden=p.id!==btn.dataset.tab+'-panel');
+  document.getElementById('notice').classList.remove('show');
+}));
+const files=document.getElementById('files'), preview=document.getElementById('preview'), drop=document.getElementById('dropzone');
+function showFiles(list){preview.innerHTML='';[...list].forEach(file=>{if(!file.type.startsWith('image/'))return;const img=document.createElement('img');img.alt=file.name;img.src=URL.createObjectURL(file);preview.append(img);});}
+files.addEventListener('change',()=>showFiles(files.files));
+['dragenter','dragover'].forEach(e=>drop.addEventListener(e,x=>{x.preventDefault();drop.classList.add('drag')}));
+['dragleave','drop'].forEach(e=>drop.addEventListener(e,x=>{x.preventDefault();drop.classList.remove('drag')}));
+drop.addEventListener('drop',e=>{if(e.dataTransfer.files.length){files.files=e.dataTransfer.files;showFiles(files.files)}});
+document.getElementById('analyze').addEventListener('click',()=>{
+ const active=document.querySelector('.tab.active').dataset.tab;
+ const notice=document.getElementById('notice');
+ let has=active==='link'?document.getElementById('test-link').value.trim():active==='text'?document.getElementById('questions').value.trim():files.files.length>0;
+ notice.textContent=has
+ ?'Интерфейс готов! Чтобы анализировать ссылки, распознавать фото и получать ответы от ИИ, нужно подключить сервер и AI API. Сейчас это дизайн-прототип: данные никуда не отправляются.'
+ :'Сначала добавь ссылку, текст вопросов или хотя бы одно изображение.';
+ notice.classList.add('show');
+});
+</script>
+</body>
+</html>
